@@ -28,24 +28,96 @@
     termSet.add(quad.object)
 
     // if (quad.subject.termType === 'NamedNode' && quad.object.termType === 'NamedNode') {
-      links.push({
-        source: quad.subject.value,
-        target: quad.object.value,
-      })
+    links.push({
+      source: quad.subject.value,
+      target: quad.object.value,
+      linkLabel: quad.predicate.value,
+    })
     // }
 
   }
 
-  const nodes = [...termSet].map(x=>x.value).map(i => ({ id: i }))
+  const nodes = [...termSet].map(i => {
+
+    let img = undefined
+    if (i.value.endsWith('.jpg')) {
+      img = new Image();
+      img.src = i.value;
+      // img.src ='https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/111.jpg'
+    }
+
+      return {
+        id: i.value,
+        img,
+        nodeLabel: i.value,
+      }
+    },
+  )
 
   const gData = {
     nodes,
     links,
   }
 
+  const getColor = n => '#' + ((n * 1234567) % Math.pow(2, 24)).toString(16).padStart(6, '0')
+
   const Graph = ForceGraph()
-  (document.getElementById('graph')).graphData(gData).linkDirectionalArrowLength(10)
-  console.log('listo papa')
+  (document.getElementById('graph')).
+    nodePointerAreaPaint(nodePaint).
+    nodeCanvasObject((node, ctx) => nodePaint(node, getColor(node.id), ctx)).
+    nodePointerAreaPaint((node, color, ctx) => {
+      const size = 12;
+      ctx.fillStyle = color;
+      ctx.fillRect(node.x - size / 2, node.y - size / 2, size, size); // draw square as pointer trap
+    }).
+    graphData(gData).
+    linkDirectionalArrowLength(10)
+
+  function nodePaint (node, color, ctx) {
+    const { id, nodeLabel, img, x, y } = node
+    if (img) {
+      const size = 12
+      ctx.drawImage(img, x - size / 2, y - size / 2, size, size)
+
+      // console.log(id)
+    } else {
+      ctx.fillStyle = color
+      ctx.font = '10px Sans-Serif'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillText(nodeLabel, x, y)
+    }
+
+    // [
+    //   () => { ctx.fillRect(x - 6, y - 4, 12, 8) }, // rectangle
+    //   () => {
+    //     ctx.beginPath()
+    //     ctx.moveTo(x, y - 5)
+    //     ctx.lineTo(x - 5, y + 5)
+    //     ctx.lineTo(x + 5, y + 5)
+    //     ctx.fill()
+    //   }, // triangle
+    //   () => {
+    //     ctx.beginPath()
+    //     ctx.arc(x, y, 5, 0, 2 * Math.PI, false)
+    //     ctx.fill()
+    //   }, // circle
+    //   () => {
+    //     ctx.font = '10px Sans-Serif'
+    //     ctx.textAlign = 'center'
+    //     ctx.textBaseline = 'middle'
+    //     ctx.fillText('Text', x, y)
+    //   }, // text
+    // ][id % 4]()
+    // console.log(id)
+
+    // if(id.endsWith('.jpg')){
+    //   console.log(id)
+    // }
+
+  }
+
+
 </script>
 </body>
 </html>
