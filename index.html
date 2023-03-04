@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Stress view</title>
+    <script type="module" src="/src/rdf-entity.js"></script>
+
+</head>
+
+<body>
+<div id="graph"></div>
+
+<script type="module">
+  import ForceGraph from 'force-graph'
+  import { fakePeopleNetwork } from 'rdf-dataset-faker'
+  import rdf from './src/rdf-ext.js'
+
+  const dataset = fakePeopleNetwork({})
+
+  // Random tree
+  const N = 400
+
+  const termSet = rdf.termSet()
+  const links = []
+  for (const quad of dataset) {
+    termSet.add(quad.subject)
+    termSet.add(quad.object)
+
+    // if (quad.subject.termType === 'NamedNode' && quad.object.termType === 'NamedNode') {
+      links.push({
+        source: quad.subject.value,
+        target: quad.object.value,
+      })
+    // }
+
+  }
+
+  const nodes = [...termSet].map(x=>x.value).map(i => ({ id: i }))
+
+  const gData = {
+    nodes,
+    links,
+  }
+
+  const Graph = ForceGraph()
+  (document.getElementById('graph')).graphData(gData).linkDirectionalArrowLength(10)
+  console.log('listo papa')
+</script>
+</body>
+</html>
+
+
+
