@@ -17,6 +17,7 @@
     "@rdfjs/namespace": "^2.0.0",
     "@rdfjs/term-map": "^2.0.0",
     "@rdfjs/term-set": "^2.0.1",
+    "canvas-table": "^0.3.0",
     "clownface": "^1.5.1",
     "force-graph": "^1.43.0",
     "lit": "^2.4.1",

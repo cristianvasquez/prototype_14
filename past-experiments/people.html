@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Simple view</title>
+    <script type="module" src="/src/rdf-entity.js"></script>
+
+</head>
+
+<body>
+<div id="graph"></div>
+
+<script type="module">
+  import ForceGraph from 'force-graph'
+  import { fakePeopleNetwork } from 'rdf-dataset-faker'
+  import rdf from './src/rdf-ext.js'
+  // import { getDataset } from './src/vaultData.js'
+
+  // const dataset = getDataset('./example-vault')// fakePeopleNetwork({})
+  const dataset = fakePeopleNetwork({})
+  // Random tree
+  const N = 400
+
+  const termSet = rdf.termSet()
+  const links = []
+  for (const quad of dataset) {
+    termSet.add(quad.subject)
+    termSet.add(quad.object)
+
+    // if (quad.subject.termType === 'NamedNode' && quad.object.termType === 'NamedNode') {
+    links.push({
+      source: quad.subject.value,
+      target: quad.object.value,
+      linkLabel: quad.predicate.value,
+    })
+    // }
+
+  }
+
+  const nodes = [...termSet].map(i => {
+
+      let img = undefined
+      if (i.value.endsWith('.jpg')) {
+        img = new Image()
+        // img.src = i.value;
+        img.src = 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/111.jpg'
+      }
+
+      return {
+        id: i.value,
+        img,
+        nodeLabel: i.value,
+        type: i.termType,
+      }
+    },
+  )
+
+  const gData = {
+    nodes,
+    links,
+  }
+
+  const getColor = n => '#' + ((n * 1234567) % Math.pow(2, 24)).toString(16).padStart(6, '0')
+
+  const Graph = ForceGraph()
+  (document.getElementById('graph')).
+    nodePointerAreaPaint(nodePaint).
+    nodeCanvasObject((node, ctx) => nodePaint(node, getColor(node.id), ctx)).
+    nodePointerAreaPaint((node, color, ctx) => {
+      const size = 12
+      ctx.fillStyle = color
+      ctx.fillRect(node.x - size / 2, node.y - size / 2, size, size) // draw square as pointer trap
+    }).
+    graphData(gData).
+    linkDirectionalArrowLength(10)
+
+  function nodePaint (node, color, ctx) {
+    const { id, nodeLabel, type, img, x, y } = node
+    if (img) {
+      const size = 12
+      ctx.drawImage(img, x - size / 2, y - size / 2, size, size)
+    } else if (type === 'BlankNode') {
+      ctx.beginPath()
+      ctx.moveTo(x, y - 5)
+      ctx.lineTo(x - 5, y + 5)
+      ctx.lineTo(x + 5, y + 5)
+      ctx.fill()
+    } else if (type === 'NamedNode') {
+      const size = 24
+      ctx.fillStyle = color
+      ctx.font = '24px Sans-Serif'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillText(nodeLabel, x, y)
+    } else {
+      ctx.fillStyle = color
+      ctx.font = '10px Sans-Serif'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillText(nodeLabel, x, y)
+    }
+  }
+
+
+</script>
+</body>
+</html>
