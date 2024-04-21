@@ -5,31 +5,35 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cristianvasquez/prototype_14.git"
   },
   "dependencies": {
-    "@rdfjs/data-model": "^2.0.1",
-    "@rdfjs/dataset": "^2.0.1",
-    "@rdfjs/namespace": "^2.0.0",
-    "@rdfjs/term-map": "^2.0.0",
-    "@rdfjs/term-set": "^2.0.1",
-    "canvas-table": "^0.3.0",
-    "clownface": "^1.5.1",
-    "force-graph": "^1.43.0",
-    "lit": "^2.4.1",
-    "n3": "^1.16.3",
-    "rdf-dataset-faker": "^0.2.2"
+    "@reactodia/workspace": "^0.24.0",
+    "n3": "^1.17.3",
+    "oxigraph": "^0.4.0-alpha.6",
+    "rdf-ext": "^2.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sparqljs": "^3.7.1",
+    "vault-triplifier": "^0.4.2"
   },
   "devDependencies": {
-    "html": "^1.0.0",
-    "vite": "^3.2.4"
+    "@types/react": "^18.2.74",
+    "@types/react-dom": "^18.2.24",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "vite": "^5.2.10"
   },
   "author": "Cristian Vasquez",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/cristianvasquez/prototype_14/issues"
   },

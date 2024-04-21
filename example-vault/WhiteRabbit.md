@@ -1,6 +1,8 @@
+
+
 # White rabbit
 
-The white rabbit (is a :: ex:Contact), and (lives in :: [[#Wozenderlands]]).
+The white rabbit (is a :: ex:Rabbit), and (lives in :: [[#Wozenderlands]]).
 
 He (loves to drink tea with :: [[Alice]])
 
