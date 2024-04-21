@@ -5,20 +5,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cristianvasquez/prototype_14.git"
   },
   "dependencies": {
+    "@reactodia/workspace": "^0.24.0",
+    "n3": "^1.17.3",
     "oxigraph": "^0.4.0-alpha.6",
     "rdf-ext": "^2.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "sparqljs": "^3.7.1",
     "vault-triplifier": "^0.4.2"
   },
   "devDependencies": {
-    "html": "^1.0.0",
+    "@types/react": "^18.2.74",
+    "@types/react-dom": "^18.2.24",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
     "vite": "^5.2.10"
   },
   "author": "Cristian Vasquez",
